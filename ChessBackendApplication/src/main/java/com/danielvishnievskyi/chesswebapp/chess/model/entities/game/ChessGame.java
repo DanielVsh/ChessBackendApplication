@@ -4,6 +4,7 @@ import com.danielvishnievskyi.chesswebapp.chess.model.entities.board.Board;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.game.chekers.CheckmateAndCheckGameStateChecker;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.game.chekers.GameStateChecker;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.game.chekers.StalemateGameStateChecker;
+import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.CoordinatesMove;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Move;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.pieces.Piece;
 import com.danielvishnievskyi.chesswebapp.chess.model.enums.Color;
@@ -47,7 +48,8 @@ public class ChessGame {
     this.historyFEN = new ArrayList<>();
   }
 
-  public void movePiece(Move move) {
+  public void movePiece(CoordinatesMove coordinatesMove) {
+    Move move = new Move(this.getBoard(), coordinatesMove.getFrom(), coordinatesMove.getTo());
 
     if (!getGameState().equals(GameState.ONGOING)) {
       return;
