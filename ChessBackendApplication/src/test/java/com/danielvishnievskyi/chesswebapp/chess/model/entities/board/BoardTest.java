@@ -2,7 +2,7 @@ package com.danielvishnievskyi.chesswebapp.chess.model.entities.board;
 
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.game.ChessGame;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Coordinates;
-import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Move;
+import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.CoordinatesMove;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.pieces.*;
 import com.danielvishnievskyi.chesswebapp.chess.model.enums.BoardFile;
 import com.danielvishnievskyi.chesswebapp.chess.model.enums.BoardRank;
@@ -151,7 +151,7 @@ class BoardTest {
   @Test
   void getEnPassantMove1_BLACK() {
     ChessGame chessGame = new ChessGame("rnbqkb1r/ppppp1pp/5n2/8/4Pp1P/3P4/PPP2PP1/RNBQKBNR w KQkq - 1 4");
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_G, RANK_2), new Coordinates(FILE_G, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_G, RANK_2), new Coordinates(FILE_G, RANK_4)));
 
     assertEquals(new Coordinates(FILE_G, RANK_3), chessGame.getBoard().getEnPassantMove().get());
   }
@@ -160,7 +160,7 @@ class BoardTest {
   void getEnPassantMove2_BLACK() {
     ChessGame chessGame = new ChessGame("rnbqkbnr/p1pp1ppp/4p3/8/1p1P4/2P5/PP2PPPP/RNBQKBNR w KQkq - 0 4");
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_4)));
 
     assertEquals(new Coordinates(FILE_A, RANK_3), chessGame.getBoard().getEnPassantMove().get());
   }
@@ -169,7 +169,7 @@ class BoardTest {
   void getEnPassantMove1_WHITE() {
     ChessGame chessGame = new ChessGame("rnbqkbnr/pp1ppppp/2p5/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2");
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_F, RANK_7), new Coordinates(FILE_F, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_7), new Coordinates(FILE_F, RANK_5)));
 
     assertEquals(new Coordinates(FILE_F, RANK_6), chessGame.getBoard().getEnPassantMove().get());
   }
@@ -178,7 +178,7 @@ class BoardTest {
   void getEnPassantMove2_WHITE() {
     ChessGame chessGame = new ChessGame("rnbqkbnr/pp1ppppp/2p5/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2");
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_D, RANK_7), new Coordinates(FILE_D, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_D, RANK_7), new Coordinates(FILE_D, RANK_5)));
     System.out.println(chessGame.generateFEN());
     assertEquals(new Coordinates(FILE_D, RANK_6), chessGame.getBoard().getEnPassantMove().get());
   }
@@ -187,7 +187,7 @@ class BoardTest {
   void getEnPassantMove_NOMOVE_WHITE() {
     ChessGame chessGame = new ChessGame("rnbqkbnr/pp1ppppp/2p5/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2");
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_D, RANK_7), new Coordinates(FILE_D, RANK_6)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_D, RANK_7), new Coordinates(FILE_D, RANK_6)));
 
     assertTrue(chessGame.getBoard().getEnPassantMove().isEmpty());
   }
@@ -196,13 +196,13 @@ class BoardTest {
   void getHalfMoveClock_OnlyPawnMoves() {
     ChessGame chessGame = new ChessGame();
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_D, RANK_2), new Coordinates(FILE_D, RANK_3)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_D, RANK_7), new Coordinates(FILE_D, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_C, RANK_2), new Coordinates(FILE_C, RANK_4)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_C, RANK_4), new Coordinates(FILE_C, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_B, RANK_7), new Coordinates(FILE_B, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_C, RANK_5), new Coordinates(FILE_B, RANK_6)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_D, RANK_2), new Coordinates(FILE_D, RANK_3)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_D, RANK_7), new Coordinates(FILE_D, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_C, RANK_2), new Coordinates(FILE_C, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_C, RANK_4), new Coordinates(FILE_C, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_B, RANK_7), new Coordinates(FILE_B, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_C, RANK_5), new Coordinates(FILE_B, RANK_6)));
 
     assertEquals(0, chessGame.getBoard().getHalfMoveClock());
   }
@@ -211,10 +211,10 @@ class BoardTest {
   void getHalfMoveClock_NoPawnMovesAndNoCaptures() {
     ChessGame chessGame = new ChessGame();
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_G, RANK_1), new Coordinates(FILE_F, RANK_3)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_G, RANK_8), new Coordinates(FILE_F, RANK_6)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_F, RANK_3), new Coordinates(FILE_D, RANK_4)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_F, RANK_6), new Coordinates(FILE_D, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_G, RANK_1), new Coordinates(FILE_F, RANK_3)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_G, RANK_8), new Coordinates(FILE_F, RANK_6)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_3), new Coordinates(FILE_D, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_6), new Coordinates(FILE_D, RANK_5)));
 
     assertEquals(4, chessGame.getBoard().getHalfMoveClock());
   }
@@ -223,12 +223,12 @@ class BoardTest {
   void getHalfMoveClock_PawnMoveInTheMiddleOfMoves() {
     ChessGame chessGame = new ChessGame();
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_G, RANK_1), new Coordinates(FILE_F, RANK_3)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_G, RANK_8), new Coordinates(FILE_F, RANK_6)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_3)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_B, RANK_8), new Coordinates(FILE_C, RANK_6)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_F, RANK_3), new Coordinates(FILE_D, RANK_4)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_F, RANK_6), new Coordinates(FILE_D, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_G, RANK_1), new Coordinates(FILE_F, RANK_3)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_G, RANK_8), new Coordinates(FILE_F, RANK_6)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_3)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_B, RANK_8), new Coordinates(FILE_C, RANK_6)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_3), new Coordinates(FILE_D, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_6), new Coordinates(FILE_D, RANK_5)));
 
     assertEquals(3, chessGame.getBoard().getHalfMoveClock());
   }
@@ -237,12 +237,12 @@ class BoardTest {
   void getFullMoveNumber() {
     ChessGame chessGame = new ChessGame();
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_G, RANK_1), new Coordinates(FILE_F, RANK_3)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_G, RANK_8), new Coordinates(FILE_F, RANK_6)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_3)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_B, RANK_8), new Coordinates(FILE_C, RANK_6)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_F, RANK_3), new Coordinates(FILE_D, RANK_4)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_F, RANK_6), new Coordinates(FILE_D, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_G, RANK_1), new Coordinates(FILE_F, RANK_3)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_G, RANK_8), new Coordinates(FILE_F, RANK_6)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_3)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_B, RANK_8), new Coordinates(FILE_C, RANK_6)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_3), new Coordinates(FILE_D, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_6), new Coordinates(FILE_D, RANK_5)));
 
     assertEquals(6, chessGame.getBoard().getFullMoveNumber());
   }
@@ -251,11 +251,11 @@ class BoardTest {
   void canCastleKingSide_WHITE() {
     ChessGame chessGame = new ChessGame();
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_H, RANK_2), new Coordinates(FILE_H, RANK_4)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_H, RANK_1), new Coordinates(FILE_H, RANK_2)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_F, RANK_7), new Coordinates(FILE_F, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_H, RANK_2), new Coordinates(FILE_H, RANK_1)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_H, RANK_2), new Coordinates(FILE_H, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_H, RANK_1), new Coordinates(FILE_H, RANK_2)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_7), new Coordinates(FILE_F, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_H, RANK_2), new Coordinates(FILE_H, RANK_1)));
 
     assertFalse(chessGame.getBoard().canCastleKingSide(WHITE));
     assertTrue(chessGame.getBoard().canCastleQueenSide(WHITE));
@@ -267,11 +267,11 @@ class BoardTest {
   void canCastleQueenSide_WHITE() {
     ChessGame chessGame = new ChessGame();
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_4)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_A, RANK_1), new Coordinates(FILE_A, RANK_2)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_F, RANK_7), new Coordinates(FILE_F, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_1)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_A, RANK_1), new Coordinates(FILE_A, RANK_2)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_7), new Coordinates(FILE_F, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_1)));
 
     assertTrue(chessGame.getBoard().canCastleKingSide(WHITE));
     assertFalse(chessGame.getBoard().canCastleQueenSide(WHITE));
@@ -283,9 +283,9 @@ class BoardTest {
   void isKingMoved_WHITE() {
     ChessGame chessGame = new ChessGame();
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_2), new Coordinates(FILE_E, RANK_4)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_1), new Coordinates(FILE_E, RANK_2)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_2), new Coordinates(FILE_E, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_1), new Coordinates(FILE_E, RANK_2)));
 
     assertTrue(chessGame.getBoard().isKingMoved(WHITE));
     assertFalse(chessGame.getBoard().isKingMoved(BLACK));
@@ -295,10 +295,10 @@ class BoardTest {
   void isKingMoved_BLACK() {
     ChessGame chessGame = new ChessGame();
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_2), new Coordinates(FILE_E, RANK_4)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_F, RANK_2), new Coordinates(FILE_F, RANK_3)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_8), new Coordinates(FILE_E, RANK_7)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_2), new Coordinates(FILE_E, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_2), new Coordinates(FILE_F, RANK_3)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_8), new Coordinates(FILE_E, RANK_7)));
 
     assertTrue(chessGame.getBoard().isKingMoved(BLACK));
     assertFalse(chessGame.getBoard().isKingMoved(WHITE));
@@ -308,10 +308,10 @@ class BoardTest {
   void isKingMoved_WhiteAndBlack() {
     ChessGame chessGame = new ChessGame();
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_2), new Coordinates(FILE_E, RANK_4)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_1), new Coordinates(FILE_E, RANK_2)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_E, RANK_8), new Coordinates(FILE_E, RANK_7)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_2), new Coordinates(FILE_E, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_7), new Coordinates(FILE_E, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_1), new Coordinates(FILE_E, RANK_2)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_E, RANK_8), new Coordinates(FILE_E, RANK_7)));
 
     assertTrue(chessGame.getBoard().isKingMoved(WHITE));
     assertTrue(chessGame.getBoard().isKingMoved(BLACK));

@@ -3,7 +3,7 @@ package com.danielvishnievskyi.chesswebapp.chess.model.entities.pieces;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.board.Board;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.game.ChessGame;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Coordinates;
-import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Move;
+import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.CoordinatesMove;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -98,7 +98,7 @@ class PawnTest {
   void getAvailableMoves_EnPassant_White() {
     ChessGame chessGame = new ChessGame("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 1 3");
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_A, RANK_7), new Coordinates(FILE_A, RANK_5)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_A, RANK_7), new Coordinates(FILE_A, RANK_5)));
 
     Piece pawn = chessGame.getBoard().getPiece(new Coordinates(FILE_B, RANK_5)).get();
 
@@ -115,9 +115,9 @@ class PawnTest {
 
     Piece pawn = chessGame.getBoard().getPiece(new Coordinates(FILE_B, RANK_4)).get();
 
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_G, RANK_1), new Coordinates(FILE_F, RANK_3)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_G, RANK_7), new Coordinates(FILE_G, RANK_6)));
-    chessGame.movePiece(new Move(chessGame.getBoard(), new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_4)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_G, RANK_1), new Coordinates(FILE_F, RANK_3)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_G, RANK_7), new Coordinates(FILE_G, RANK_6)));
+    chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_A, RANK_2), new Coordinates(FILE_A, RANK_4)));
 
     assertEquals(2, pawn.getAvailableMoves(chessGame.getBoard()).size());
     assertTrue(pawn.getAvailableMoves(chessGame.getBoard()).containsAll(List.of(

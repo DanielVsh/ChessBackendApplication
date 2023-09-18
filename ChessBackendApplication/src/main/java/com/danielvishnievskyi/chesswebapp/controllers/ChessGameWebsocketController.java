@@ -1,7 +1,7 @@
 package com.danielvishnievskyi.chesswebapp.controllers;
 
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.game.ChessGame;
-import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Move;
+import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.CoordinatesMove;
 import com.danielvishnievskyi.chesswebapp.model.dto.request.ChessGameMatchRequestDTO;
 import com.danielvishnievskyi.chesswebapp.services.chess.ChessInMemoryGameService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,8 @@ public class ChessGameWebsocketController {
   private final ChessInMemoryGameService chessInMemoryGameService;
 
   @MessageMapping("/game/{gameId}/move")
-  public void makeMove(@DestinationVariable ChessGameMatchRequestDTO chessGameMatchRequestDTO, Move move) {
-    ChessGame updatedGame = chessInMemoryGameService.makeMove(chessGameMatchRequestDTO, move);
+  public void makeMove(@DestinationVariable ChessGameMatchRequestDTO chessGameMatchRequestDTO, CoordinatesMove coordinatesMove) {
+    ChessGame updatedGame = chessInMemoryGameService.makeMove(chessGameMatchRequestDTO, coordinatesMove);
 
     messagingTemplate.convertAndSend("/topic/game/" + chessGameMatchRequestDTO.getInMemoryId(), updatedGame);
   }

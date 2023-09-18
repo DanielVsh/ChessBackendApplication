@@ -3,7 +3,6 @@ package com.danielvishnievskyi.chesswebapp.chess.utils;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Coordinates;
 import com.danielvishnievskyi.chesswebapp.chess.model.enums.BoardFile;
 import com.danielvishnievskyi.chesswebapp.chess.model.enums.BoardRank;
-import com.danielvishnievskyi.chesswebapp.chess.utils.BoardUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
