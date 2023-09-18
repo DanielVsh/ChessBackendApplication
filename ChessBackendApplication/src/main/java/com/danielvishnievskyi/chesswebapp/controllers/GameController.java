@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/game/")
+@RequestMapping("/api/v1/game")
 @RequiredArgsConstructor
 public class GameController {
   private final GameService gameService;
 
-  @PostMapping("create")
+  @PostMapping("/create")
   public ResponseEntity<Void> createGameInMemory(@RequestBody ChessGameMatchRequestDTO chessGameMatchRequestDTO) {
     gameService.createGame(chessGameMatchRequestDTO);
     return ResponseEntity.ok().build();
   }
 
-  @PostMapping("create")
+  @PostMapping("/save")
   public ResponseEntity<Void> saveGame(@RequestBody ChessGameMatchRequestDTO chessGameMatchRequestDTO) {
     gameService.createGame(chessGameMatchRequestDTO);
     return ResponseEntity.ok().build();
