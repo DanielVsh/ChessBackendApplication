@@ -1,1 +1,0 @@
-export const backendIp = `http://localhost:8080`
