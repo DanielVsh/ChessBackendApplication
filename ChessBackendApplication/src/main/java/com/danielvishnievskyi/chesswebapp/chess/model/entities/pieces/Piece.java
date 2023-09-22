@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
-public abstract class Piece implements Cloneable{
+public abstract class Piece {
   private Coordinates coordinates;
   private Color color;
 
