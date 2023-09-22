@@ -11,6 +11,7 @@ import com.danielvishnievskyi.chesswebapp.chess.utils.BoardUtils;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class Pawn extends Piece {
@@ -64,6 +65,7 @@ public class Pawn extends Piece {
 
   @Override
   public boolean isSquareAvailableForMove(Board board, Coordinates coordinates) {
+    if (isKingAttackedAfterMove(board, coordinates)) return false;
     if (this.getCoordinates().getFile().equals(coordinates.getFile())) {
       int rankShift = Math.abs(this.getCoordinates().getRank().toInt() - coordinates.getRank().toInt());
 
@@ -74,27 +76,25 @@ public class Pawn extends Piece {
         return board.isSquareEmpty(coordinates);
       }
     } else {
-      if (isEnPassantPossible(board, coordinates)) {
-        return true;
-      }
+      if (getEnPassantMove(board, coordinates).isPresent()) return true;
 
       return !board.isSquareEmpty(coordinates) &&
         board.getPiece(coordinates).filter(piece -> !piece.getColor().equals(this.getColor())).isPresent();
     }
   }
 
-  private boolean isEnPassantPossible(Board board, Coordinates targetCoordinates) {
+  public Optional<Coordinates> getEnPassantMove(Board board, Coordinates targetCoordinates) {
     if (this.getColor().equals(Color.WHITE) && !this.getCoordinates().getRank().equals(BoardRank.RANK_5)) {
-      return false;
+      return Optional.empty();
     }
 
     if (this.getColor().equals(Color.BLACK) && !this.getCoordinates().getRank().equals(BoardRank.RANK_4)) {
-      return false;
+      return Optional.empty();
     }
     List<Move> movesHistory = board.getMovesHistory();
 
     if (movesHistory.isEmpty()) {
-      return false;
+      return Optional.empty();
     }
 
     Move lastMove = movesHistory.get(movesHistory.size() - 1);
@@ -107,11 +107,11 @@ public class Pawn extends Piece {
 
       if (Math.abs(from.getRank().toInt() - to.getRank().toInt()) == 2) {
         Coordinates expectedEnPassantSquare = calculateEnPassantSquare(lastMove.getTo());
-        return expectedEnPassantSquare.equals(targetCoordinates);
+        if (expectedEnPassantSquare.equals(targetCoordinates)) return Optional.of(expectedEnPassantSquare);
       }
     }
 
-    return false;
+    return Optional.empty();
   }
 
   private Coordinates calculateEnPassantSquare(Coordinates lastPawnMoveDestination) {

@@ -137,4 +137,39 @@ class PawnTest {
     )));
   }
 
+  @Test
+  void getAvailableMoves_PinnedToKingCanBeatAttacker() {
+    ChessGame chessGame = new ChessGame("rnbqk1nr/pppppppp/5b2/4P3/3K4/8/PPPP1PPP/RNBQ1BNR w kq - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Pawn pawn = (Pawn) board1.getPiece(new Coordinates(FILE_E, RANK_5)).get();
+
+    assertEquals(1, pawn.getAvailableMoves(board1).size());
+    assertTrue(pawn.getAvailableMoves(board1).contains(new Coordinates(FILE_F, RANK_6)));
+  }
+
+  @Test
+  void getAvailableMoves_PinnedToKing() {
+    ChessGame chessGame = new ChessGame("7k/8/8/8/1K2P2r/8/8/8 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Pawn pawn = (Pawn) board1.getPiece(new Coordinates(FILE_E, RANK_4)).get();
+
+    assertTrue(pawn.getAvailableMoves(board1).isEmpty());
+  }
+
+  @Test
+  void getAvailableMoves_PinnedToKingCanBeatAttackerButKindAttackedByAnotherPiece() {
+    ChessGame chessGame = new ChessGame("7k/8/3b4/2P5/1K5r/8/8/8 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Pawn pawn = (Pawn) board1.getPiece(new Coordinates(FILE_C, RANK_5)).get();
+
+    System.out.println(pawn.getAvailableMoves(board1));
+    assertTrue(pawn.getAvailableMoves(board1).isEmpty());
+  }
+
 }

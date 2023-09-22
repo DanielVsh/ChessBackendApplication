@@ -1,6 +1,7 @@
 package com.danielvishnievskyi.chesswebapp.chess.model.entities.pieces;
 
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.board.Board;
+import com.danielvishnievskyi.chesswebapp.chess.model.entities.game.ChessGame;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Coordinates;
 import com.danielvishnievskyi.chesswebapp.chess.model.enums.BoardFile;
 import com.danielvishnievskyi.chesswebapp.chess.model.enums.BoardRank;
@@ -12,8 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.danielvishnievskyi.chesswebapp.chess.model.enums.BoardFile.*;
-import static com.danielvishnievskyi.chesswebapp.chess.model.enums.BoardRank.RANK_4;
-import static com.danielvishnievskyi.chesswebapp.chess.model.enums.BoardRank.RANK_5;
+import static com.danielvishnievskyi.chesswebapp.chess.model.enums.BoardRank.*;
 import static com.danielvishnievskyi.chesswebapp.chess.model.enums.Color.BLACK;
 import static com.danielvishnievskyi.chesswebapp.chess.model.enums.Color.WHITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -65,6 +65,45 @@ class RookTest {
       new Coordinates(FILE_C, BoardRank.RANK_4),
       new Coordinates(FILE_D, BoardRank.RANK_4)
     )));
+  }
+
+  @Test
+  void getAvailableMoves_RookPinnedToKing() {
+    ChessGame chessGame = new ChessGame("7k/8/8/8/2K5/3R4/8/5b2 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Piece rook = board1.getPiece(new Coordinates(FILE_D, RANK_3)).get();
+
+    assertTrue(rook.getAvailableMoves(board1).isEmpty());
+  }
+
+  @Test
+  void getAvailableMoves_RookPinnedToKingCanBeatAttacker() {
+    ChessGame chessGame = new ChessGame("7k/8/8/8/2KR3r/8/8/8 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Piece rook = board1.getPiece(new Coordinates(FILE_D, RANK_4)).get();
+
+    assertEquals(4, rook.getAvailableMoves(board1).size());
+    assertTrue(rook.getAvailableMoves(board1).containsAll(List.of(
+      new Coordinates(FILE_E, RANK_4),
+      new Coordinates(FILE_F, RANK_4),
+      new Coordinates(FILE_G, RANK_4),
+      new Coordinates(FILE_H, RANK_4)
+    )));
+  }
+
+  @Test
+  void getAvailableMoves_RookPinnedToKingAndKingAttackedByKnight() {
+    ChessGame chessGame = new ChessGame("7k/8/8/8/2KR3r/8/3n4/8 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Piece rook = board1.getPiece(new Coordinates(FILE_D, RANK_4)).get();
+
+    assertTrue(rook.getAvailableMoves(board1).isEmpty());
   }
 
 }

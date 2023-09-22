@@ -1,6 +1,7 @@
 package com.danielvishnievskyi.chesswebapp.chess.model.entities.pieces;
 
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.board.Board;
+import com.danielvishnievskyi.chesswebapp.chess.model.entities.game.ChessGame;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Coordinates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,5 +59,42 @@ class BishopTest {
       new Coordinates(FILE_D, RANK_2), new Coordinates(FILE_D, RANK_4),
       new Coordinates(FILE_E, RANK_5)
     )));
+  }
+
+  @Test
+  void getAvailableMoves_BishopPinnedToKing() {
+    ChessGame chessGame = new ChessGame("7k/8/8/8/2K1B2r/8/8/8 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Piece bishop = board1.getPiece(new Coordinates(FILE_E, RANK_4)).get();
+
+    assertTrue(bishop.getAvailableMoves(board1).isEmpty());
+  }
+
+  @Test
+  void getAvailableMoves_BishopPinnedToKingCanBeatAttacker() {
+    ChessGame chessGame = new ChessGame("7k/8/8/8/2K5/8/4B3/5q2 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Piece bishop = board1.getPiece(new Coordinates(FILE_E, RANK_2)).get();
+
+    assertEquals(2, bishop.getAvailableMoves(board1).size());
+    assertTrue(bishop.getAvailableMoves(board1).containsAll(List.of(
+      new Coordinates(FILE_D, RANK_3),
+      new Coordinates(FILE_F, RANK_1)
+    )));
+  }
+
+  @Test
+  void getAvailableMoves_BishopPinnedToKingAndKingAttackedByKnight() {
+    ChessGame chessGame = new ChessGame("7k/8/8/8/2K5/8/3nB3/5q2 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Piece bishop = board1.getPiece(new Coordinates(FILE_E, RANK_2)).get();
+
+    assertTrue(bishop.getAvailableMoves(board1).isEmpty());
   }
 }

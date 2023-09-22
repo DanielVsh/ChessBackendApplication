@@ -1,6 +1,7 @@
 package com.danielvishnievskyi.chesswebapp.chess.model.entities.pieces;
 
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.board.Board;
+import com.danielvishnievskyi.chesswebapp.chess.model.entities.game.ChessGame;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Coordinates;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.CoordinatesShift;
 import com.danielvishnievskyi.chesswebapp.chess.model.enums.Color;
@@ -83,5 +84,16 @@ class KnightTest {
       new Coordinates(FILE_B, RANK_2), new Coordinates(FILE_B, RANK_6),
       new Coordinates(FILE_C, RANK_3), new Coordinates(FILE_C, RANK_5)
     )));
+  }
+
+  @Test
+  void getAvailableMoves_PinnedToKing() {
+    ChessGame chessGame = new ChessGame("7k/8/8/8/2K1N2q/8/8/8 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Knight piece = (Knight) board1.getPiece(new Coordinates(FILE_E, RANK_4)).get();
+
+    assertTrue(piece.getAvailableMoves(board1).isEmpty());
   }
 }

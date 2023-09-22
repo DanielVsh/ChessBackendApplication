@@ -7,12 +7,13 @@ import com.danielvishnievskyi.chesswebapp.chess.model.enums.Color;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
-public abstract class Piece {
+public abstract class Piece implements Cloneable{
   private Coordinates coordinates;
   private Color color;
 
@@ -39,10 +40,33 @@ public abstract class Piece {
   }
 
   public boolean isSquareAvailableForMove(Board board, Coordinates coordinates) {
-    return board.isSquareEmpty(coordinates) || !board.getPiece(coordinates).get().getColor().equals(color);
+    boolean isMovePossible = board.isSquareEmpty(coordinates) || !board.getPiece(coordinates).get().getColor().equals(color);
+
+    return isMovePossible && !isKingAttackedAfterMove(board, coordinates);
   }
 
   public boolean isSquareAvailableForAttack(Board board, Coordinates coordinates) {
     return true;
+  }
+
+  protected final boolean isKingAttackedAfterMove(Board board, Coordinates coordinates) {
+    Coordinates currentPieceCoordinate = this.getCoordinates();
+    board.removePiece(currentPieceCoordinate);
+
+    Optional<Piece> possiblePieceInMovedSquare = board.getPiece(coordinates);
+    possiblePieceInMovedSquare.ifPresent(piece -> board.removePiece(piece.getCoordinates()));
+    board.setPiece(this, coordinates);
+
+    Piece king = board.getPiecesByColor(this.getColor()).stream()
+      .filter(piece -> piece instanceof King)
+      .findFirst().get();
+
+    boolean isKingAttackedAfterMove = board.isSquareAttackedByColor(this.getColor().opposite(), king.getCoordinates());
+
+    board.removePiece(coordinates);
+    possiblePieceInMovedSquare.ifPresent(piece -> board.setPiece(piece, piece.getCoordinates()));
+    board.setPiece(this, currentPieceCoordinate);
+
+    return isKingAttackedAfterMove;
   }
 }
