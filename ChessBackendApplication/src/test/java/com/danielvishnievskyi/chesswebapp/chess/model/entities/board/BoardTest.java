@@ -179,7 +179,6 @@ class BoardTest {
     ChessGame chessGame = new ChessGame("rnbqkbnr/pp1ppppp/2p5/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2");
 
     chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_D, RANK_7), new Coordinates(FILE_D, RANK_5)));
-    System.out.println(chessGame.generateFEN());
     assertEquals(new Coordinates(FILE_D, RANK_6), chessGame.getBoard().getEnPassantMove().get());
   }
 
@@ -244,7 +243,7 @@ class BoardTest {
     chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_3), new Coordinates(FILE_D, RANK_4)));
     chessGame.movePiece(new CoordinatesMove(new Coordinates(FILE_F, RANK_6), new Coordinates(FILE_D, RANK_5)));
 
-    assertEquals(6, chessGame.getBoard().getFullMoveNumber());
+    assertEquals(4, chessGame.getBoard().getFullMoveNumber());
   }
 
   @Test

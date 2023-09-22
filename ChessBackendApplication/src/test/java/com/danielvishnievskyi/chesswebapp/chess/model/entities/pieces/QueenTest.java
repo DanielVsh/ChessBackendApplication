@@ -1,6 +1,7 @@
 package com.danielvishnievskyi.chesswebapp.chess.model.entities.pieces;
 
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.board.Board;
+import com.danielvishnievskyi.chesswebapp.chess.model.entities.game.ChessGame;
 import com.danielvishnievskyi.chesswebapp.chess.model.entities.moves.Coordinates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,30 @@ class QueenTest {
       new Coordinates(FILE_F, RANK_2), new Coordinates(FILE_F, RANK_4), new Coordinates(FILE_F, RANK_6),
       new Coordinates(FILE_G, RANK_7)
     )));
+  }
+
+
+  @Test
+  void getAvailableMoves_KingAttackedByRookButQueenCanDefend() {
+    ChessGame chessGame = new ChessGame("7k/8/8/8/2K1r2Q/8/8/8 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Piece queen = board1.getPiece(new Coordinates(FILE_H, RANK_4)).get();
+
+    assertEquals(1, queen.getAvailableMoves(board1).size());
+    assertTrue(queen.getAvailableMoves(board1).contains(new Coordinates(FILE_E, RANK_4)));
+  }
+
+
+  @Test
+  void getAvailableMoves_QueenPinnedToKingAndKingAttackedByKnight() {
+    ChessGame chessGame = new ChessGame("7k/8/8/8/2K1Q2r/8/3n4/8 w - - 0 1");
+
+    Board board1 = chessGame.getBoard();
+
+    Piece queen = board1.getPiece(new Coordinates(FILE_E, RANK_4)).get();
+
+    assertTrue(queen.getAvailableMoves(board1).isEmpty());
   }
 }

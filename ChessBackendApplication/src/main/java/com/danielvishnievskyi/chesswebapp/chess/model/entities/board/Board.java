@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 
 @Getter
 public class Board {
-  private List<Piece> pieces;
-  private List<Move> movesHistory;
+  private final List<Piece> pieces;
+  private final List<Move> movesHistory;
 
   private String initialFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
@@ -67,24 +67,14 @@ public class Board {
   }
 
   public int getFullMoveNumber() {
-    return movesHistory.size();
+    return movesHistory.size() / 2 + 1;
   }
 
   public Optional<Coordinates> getEnPassantMove() {
-    Optional<Piece> pieceWithPossibleEnPassantMove = pieces.stream()
+    return pieces.stream()
       .filter(piece -> piece instanceof Pawn)
-      .filter(piece -> piece.getAvailableMoves(this).stream()
-        .anyMatch(coordinates -> piece.getAvailableAttackMoves(this).contains(coordinates)))
-      .findFirst();
-
-    if (pieceWithPossibleEnPassantMove.isEmpty()) {
-      return Optional.empty();
-    }
-
-    return pieceWithPossibleEnPassantMove.stream()
-      .flatMap(piece -> piece.getAvailableMoves(this).stream())
-      .filter(coordinates -> !pieceWithPossibleEnPassantMove.get().getCoordinates().getFile().equals(coordinates.getFile()))
-      .filter(coordinates -> getPiece(coordinates).isEmpty())
+      .flatMap(piece -> piece.getAvailableAttackMoves(this).stream()
+        .flatMap(coordinates -> ((Pawn) piece).getEnPassantMove(this, coordinates).stream()))
       .findFirst();
   }
 
