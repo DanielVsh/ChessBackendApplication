@@ -52,7 +52,7 @@ public class ChessGame {
     Move move = new Move(this.getBoard(), coordinatesMove.getFrom(), coordinatesMove.getTo());
 
     if (!getGameState().equals(GameState.ONGOING)) {
-      return;
+      throw new RuntimeException("The game is over");
     }
 
     historyFEN.add(generateFEN());

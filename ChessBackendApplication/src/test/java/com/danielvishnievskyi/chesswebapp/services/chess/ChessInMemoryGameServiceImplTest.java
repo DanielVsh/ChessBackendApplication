@@ -33,7 +33,7 @@ class ChessInMemoryGameServiceImplTest {
     chessInMemoryGameService.newGame(gameMatchRequestDTO);
 
     assertEquals(1, ChessInMemoryGameServiceImpl.getActiveGames().size());
-    assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 0", ChessInMemoryGameServiceImpl.getActiveGames().get(gameMatchRequestDTO.getInMemoryId()).generateFEN());
+    assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", ChessInMemoryGameServiceImpl.getActiveGames().get(gameMatchRequestDTO.getInMemoryId()).generateFEN());
     assertTrue(ChessInMemoryGameServiceImpl.getActiveGames().containsKey(gameMatchRequestDTO.getInMemoryId()));
   }
 
